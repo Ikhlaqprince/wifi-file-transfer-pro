@@ -28,8 +28,8 @@ jobs:
             openjdk-17-jdk \
             zip \
             unzip \
-            libncurses6 \        # ✅ libncurses5 → libncurses6
-            libncursesw6 \       # ✅ libncursesw5 → libncursesw6
+            libncurses6 \
+            libncursesw6 \
             ffmpeg \
             libsdl2-dev \
             libffi-dev \
