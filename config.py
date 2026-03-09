@@ -1,0 +1,5 @@
+APP_NAME = "WiFi File Transfer Pro"
+VERSION = "1.0.0"
+DEVELOPER = "Ikhlak Ahmad"
+EMAIL = "samundrilinks@gmail.com"
+PHONE = "03019247594"

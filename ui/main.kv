@@ -1,0 +1,122 @@
+ScreenManager:
+    HomeScreen:
+    TransferScreen:
+    AboutScreen:
+
+<HomeScreen>:
+    name: "home"
+    FloatLayout:
+        Image:
+            source: "assets/background.png"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: 1,1
+            pos_hint: {"x":0,"y":0}
+        BoxLayout:
+            orientation: "vertical"
+            padding: 30
+            spacing: 20
+            size_hint: .9,.9
+            pos_hint: {"center_x":.5,"center_y":.5}
+            Label:
+                text: "WiFi File Transfer Pro"
+                font_size: 32
+                bold: True
+                color: 1,1,1,1
+            Label:
+                text: "Server Address"
+                font_size: 18
+                color: 1,1,1,1
+            Label:
+                text: root.ip_address
+                font_size: 18
+                color: 0,1,0,1
+            Button:
+                text: "Start Server"
+                size_hint_y: None
+                height: 60
+                background_color: 0,0.6,0.2,1
+                on_press: root.start_server()
+            Button:
+                text: "Open File Manager"
+                size_hint_y: None
+                height: 60
+                on_press: app.root.current = "transfer"
+            Button:
+                text: "About Developer"
+                size_hint_y: None
+                height: 60
+                on_press: app.root.current = "about"
+
+<TransferScreen>:
+    name: "transfer"
+    FloatLayout:
+        Image:
+            source: "assets/background.png"
+            allow_stretch: True
+            keep_ratio: False
+        BoxLayout:
+            orientation: "vertical"
+            padding: 20
+            spacing: 10
+            size_hint: .95,.95
+            pos_hint: {"center_x":.5,"center_y":.5}
+            Label:
+                text: "Files On Device"
+                font_size: 26
+                size_hint_y: None
+                height: 50
+                color: 1,1,1,1
+            ScrollView:
+                GridLayout:
+                    id: file_list
+                    cols: 1
+                    spacing: 10
+                    size_hint_y: None
+                    height: self.minimum_height
+                    Label:
+                        text: str(root.files)
+                        size_hint_y: None
+                        height: 40
+                        color: 1,1,1,1
+            Button:
+                text: "Back"
+                size_hint_y: None
+                height: 60
+                on_press: app.root.current = "home"
+
+<AboutScreen>:
+    name: "about"
+    FloatLayout:
+        Image:
+            source: "assets/background.png"
+            allow_stretch: True
+            keep_ratio: False
+        BoxLayout:
+            orientation: "vertical"
+            padding: 30
+            spacing: 20
+            size_hint: .9,.9
+            pos_hint: {"center_x":.5,"center_y":.5}
+            Label:
+                text: "Developer Information"
+                font_size: 30
+                color: 1,1,1,1
+            Label:
+                text: "Ikhlak Ahmad"
+                font_size: 20
+                color: 1,1,1,1
+            Label:
+                text: "App Developer (3 Years Experience)"
+                color: 1,1,1,1
+            Label:
+                text: "Email: samundrilinks@gmail.com"
+                color: 1,1,1,1
+            Label:
+                text: "Phone: 03019247594"
+                color: 1,1,1,1
+            Button:
+                text: "Back"
+                size_hint_y: None
+                height: 60
+                on_press: app.root.current = "home"
