@@ -1,41 +1,63 @@
-[app]
-# App Details
-title = WiFi File Transfer Pro
-package.name = wifitransfer
-package.domain = com.ikhlak.dev
+name: Build APK
 
-# Source
-source.dir = .
-source.include_exts = py,kv,html,css,js,png,jpg,gif,ico,txt
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-# Version (صرف ایک استعمال کریں - static version)
-version = 1.0
+jobs:
+  build:
+    runs-on: ubuntu-22.04  # ✅ Ubuntu 22.04 زیادہ مستحکم ہے Buildozer کے لیے
 
-# Requirements
-requirements = python3,kivy,requests
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-# Orientation
-orientation = portrait
-fullscreen = 0
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.8
 
-# Icons & Splash
-icon.filename = assets/logo.png
-presplash.filename = assets/loading.gif
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            python3-pip \
+            python3-setuptools \
+            openjdk-17-jdk \
+            zip \
+            unzip \
+            libncurses6 \
+            libncursesw6 \
+            ffmpeg \
+            libsdl2-dev \
+            libffi-dev \
+            libssl-dev \
+            autoconf \
+            automake \
+            libtool \
+            pkg-config \
+            build-essential
 
-# Android Permissions
-android.permissions = INTERNET,ACCESS_NETWORK_STATE,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
+      - name: Install Buildozer & Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install buildozer==1.5.0  # ✅ مستحکم ورژن
+          pip install cython==0.29.33
+          pip install python-for-android==2023.10.30  # ✅ مستحکم ورژن
 
-# Android SDK/NDK Settings
-android.api = 31
-android.minapi = 21
-android.sdk = 24
-android.ndk = 25b
-android.accept_sdk_license = True
+      - name: Build APK with Buildozer
+        run: |
+          if [ ! -f "buildozer.spec" ]; then
+            buildozer init
+          fi
+          # Clean previous builds to avoid cache issues
+          buildozer android clean
+          buildozer -v android debug
 
-# Build Options
-p4a.branch = master
-p4a.bootstrap = sdl2
-
-[buildozer]
-log_level = 2
-warn_on_root = 1
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wifi-transfer-apk
+          path: bin/*-debug.apk
