@@ -52,7 +52,7 @@ jobs:
           if [ ! -f "buildozer.spec" ]; then
             buildozer init
           fi
-          buildozer android clean
+          # ✅ buildozer android clean کو ہٹا دیں (پہلی بلڈ میں ایرر دیتا ہے)
           buildozer -v android debug
 
       - name: Upload APK Artifact
